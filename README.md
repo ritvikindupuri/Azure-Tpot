@@ -1,6 +1,6 @@
 # Azure T-Pot Honeypot — SOC Telemetry & Threat Analysis
 
-A reproducible honeynet I deployed on **Microsoft Azure** using **T-Pot** (Telekom Security’s multi-honeypot platform). The lab captured **real-world attack telemetry** across **SSH, FTP, and HTTP**, generated **4,000+ Suricata IDS alerts**, and logged **100+ honeypot engagements**. I analyzed everything in **Kibana** using **prebuilt Suricata/T-Pot dashboards**, interpreting **threat signatures, IP reputation, and ASN intelligence** to simulate a full **Tier-1 → Tier-2 SOC workflow**.
+A reproducible honeynet I deployed on **Microsoft Azure** using **T-Pot** (Telekom Security’s multi-honeypot platform). The lab captured **real-world attack telemetry** across **SSH, FTP, and HTTP**, generated **4,000+ Suricata IDS alerts**, and logged **100+ honeypot engagements**. I analyzed everything in **Kibana** using **prebuilt Suricata/T-Pot dashboards** (no custom Kibana queries), interpreting **threat signatures, IP reputation, and ASN intelligence** to simulate a full **Tier-1 → Tier-2 SOC workflow**.
 
 ---
 
@@ -16,36 +16,37 @@ A reproducible honeynet I deployed on **Microsoft Azure** using **T-Pot** (Telek
 ## Architecture (Mermaid)
 
 ```mermaid
-graph TB
-  A[Internet] --> B[Azure Public IP]
-  B --> C[Network Security Group]
-  C --> D[Ubuntu 22.04 VM]
+flowchart TB
+  internet[Internet] --> pip[Azure Public IP]
+  pip --> nsg[Network Security Group]
+  nsg --> vm[Ubuntu 22.04 VM]
 
-  subgraph T_Pot_Stack
-    H1[Honeytrap]
-    H2[Cowrie]
-    H3[HOneYtr4p]
-    H4[Tanner]
-    H5[Sentrypeer]
-    S[Suricata NIDS]
-    E[Elasticsearch]
-    K[Kibana (T-Pot Portal)]
+  subgraph tpotstack[T-Pot Stack]
+    honeytrap[Honeytrap]
+    cowrie[Cowrie]
+    h4[HOneYtr4p]
+    tanner[Tanner]
+    sentry[Sentrypeer]
+    suri[Suricata NIDS]
+    es[Elasticsearch]
+    kib[Kibana / T-Pot Portal]
 
-    H1 --> E
-    H2 --> E
-    H3 --> E
-    H4 --> E
-    H5 --> E
-    S --> E
-    E --> K
+    honeytrap --> es
+    cowrie --> es
+    h4 --> es
+    tanner --> es
+    sentry --> es
+    suri --> es
+    es --> kib
   end
 
-  D --> H1
-  D --> H2
-  D --> H3
-  D --> H4
-  D --> H5
-  D --> S
+  vm --> honeytrap
+  vm --> cowrie
+  vm --> h4
+  vm --> tanner
+  vm --> sentry
+  vm --> suri
+
 
 Figure A — High-level architecture rendered with Mermaid.
 
