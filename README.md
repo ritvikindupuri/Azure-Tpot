@@ -17,35 +17,26 @@ A reproducible honeynet I deployed on **Microsoft Azure** using **T-Pot** (Telek
 
 ```mermaid
 flowchart TB
-  internet[Internet] --> pip[Azure Public IP]
-  pip --> nsg[Network Security Group]
-  nsg --> vm[Ubuntu 22.04 VM]
+  Internet[Internet] --> PublicIP[Azure Public IP]
+  PublicIP --> NSG[Network Security Group]
+  NSG --> VM[Ubuntu 22.04 VM]
 
-  subgraph tpotstack[T-Pot Stack]
-    honeytrap[Honeytrap]
-    cowrie[Cowrie]
-    h4[HOneYtr4p]
-    tanner[Tanner]
-    sentry[Sentrypeer]
-    suri[Suricata NIDS]
-    es[Elasticsearch]
-    kib[Kibana / T-Pot Portal]
-
-    honeytrap --> es
-    cowrie --> es
-    h4 --> es
-    tanner --> es
-    sentry --> es
-    suri --> es
-    es --> kib
+  subgraph TPotStack [T-Pot Stack on VM]
+    Honeytrap[Honeytrap] --> ES
+    Cowrie[Cowrie] --> ES
+    HOneYtr4p[HOneYtr4p] --> ES
+    Tanner[Tanner] --> ES
+    Sentrypeer[Sentrypeer] --> ES
+    Suricata[Suricata NIDS] --> ES
+    ES[Elasticsearch] --> Kibana[Kibana (T-Pot Portal)]
   end
 
-  vm --> honeytrap
-  vm --> cowrie
-  vm --> h4
-  vm --> tanner
-  vm --> sentry
-  vm --> suri
+  VM --> Honeytrap
+  VM --> Cowrie
+  VM --> HOneYtr4p
+  VM --> Tanner
+  VM --> Sentrypeer
+  VM --> Suricata
 
 
 Figure A — High-level architecture rendered with Mermaid.
