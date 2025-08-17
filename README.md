@@ -15,30 +15,9 @@ A reproducible honeynet I deployed on **Microsoft Azure** using **T-Pot** (Telek
 
 ## Architecture (Mermaid)
 
-flowchart TD
-  Internet["Internet"] --> PublicIP["Azure Public IP"]
-  PublicIP --> NSG["Network Security Group"]
-  NSG --> VM["Ubuntu 22.04 VM"]
+<img width="3070" height="1732" alt="image" src="https://github.com/user-attachments/assets/10571c3c-bcf9-443e-a445-6f04aef4d6e4" />
 
-  subgraph TPot["T-Pot Stack on VM"]
-    Honeytrap["Honeytrap"] --> ES["Elasticsearch"]
-    Cowrie["Cowrie"] --> ES
-    H4["HOneYtr4p"] --> ES
-    Tanner["Tanner"] --> ES
-    Sentry["Sentrypeer"] --> ES
-    Suricata["Suricata NIDS"] --> ES
-    ES --> Kibana["Kibana T-Pot Portal"]
-  end
-
-  VM --> Honeytrap
-  VM --> Cowrie
-  VM --> H4
-  VM --> Tanner
-  VM --> Sentry
-  VM --> Suricata
-
-
-Figure A — High-level architecture rendered with Mermaid.
+Figure A — Architectural workflow of the T-Pot honeypot deployment on Azure
 
 Bill of Materials
 Azure VM: Ubuntu 22.04 LTS; suggested size Standard_D4s_v5 (≥4 vCPU, 8–16 GB RAM, 100+ GB SSD)
